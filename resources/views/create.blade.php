@@ -26,6 +26,8 @@
         <input type="password" id="password" name="password"><br><br>
         <label for="max_views">Maximum Views:</label><br>
         <input type="number" id="max_views" name="max_views" value="1" min="1"><br><br>
+        <label for="expiration_time">Expiration Time:</label><br>
+        <input type="datetime-local" id="expiration_time" name="expiration_time"><br><br>
         <button type="submit">Submit</button>
     </form>
 </body>

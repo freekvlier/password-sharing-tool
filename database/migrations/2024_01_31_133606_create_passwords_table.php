@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('guid')->unique();
             $table->integer('max_views')->default(1); // Maximum number of views allowed
             $table->integer('view_count')->default(0); // Counter to track the number of views
+            $table->timestamp('expiration_time')->nullable(); // Time when the password will expire
             $table->timestamps();
         });
     }

@@ -9,5 +9,5 @@ class Password extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['password', 'guid', 'max_views', 'view_count'];
+    protected $fillable = ['password', 'guid', 'max_views', 'view_count', 'expiration_time'];
 }
