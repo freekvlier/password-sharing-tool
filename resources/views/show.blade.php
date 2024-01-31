@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Password Details</h1>
-    <p>Password: {{ $password->password }}</p>
+    <p>Password: {{ $password->decrypted_password }}</p>
     <p>Maximum Views: {{ $password->max_views }}</p>
     <p>View Count: {{ $password->view_count }}</p>
 </body>
