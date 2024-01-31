@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PasswordController::class, 'create'])->name('create');
+Route::post('/store-password', [PasswordController::class, 'store'])->name('store');
+Route::get('/password/{guid}', [PasswordController::class, 'show'])->name('show');
+
+// Route::get('/{password_id}', [PasswordController::class, 'show']);
