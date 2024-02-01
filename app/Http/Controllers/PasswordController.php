@@ -6,6 +6,7 @@ use App\Models\Password;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
+use App\Http\Requests\PasswordRequest;
 
 class PasswordController extends Controller
 {
@@ -14,14 +15,8 @@ class PasswordController extends Controller
         return view('create');
     }
 
-    public function store(Request $request)
+    public function store(PasswordRequest $request)
     {
-        $request->validate([
-            'password' => 'required|string|min:6',
-            'max_views' => 'required|integer|min:1',
-            'expiration_time' => 'nullable|date|after:now',
-        ]);
-
         $guid = Str::uuid();
         $decryptionKey = Str::random(32);
         $encryptedPassword = Crypt::encryptString($request->password, $decryptionKey);
@@ -35,7 +30,10 @@ class PasswordController extends Controller
 
         $link = route('show', ['guid' => $guid, 'key' => $decryptionKey]);
 
-        return redirect()->route('create')->with('success', 'Password stored successfully! Shareable link: ' . $link);
+        return redirect()->route('create')->with('success', [
+            'message' => 'Password stored successfully!',
+            'link' => $link,
+        ]);
     }
 
     public function show($guid, $key)
@@ -46,19 +44,17 @@ class PasswordController extends Controller
         // Check if the maximum number of views has been reached
         if ($password->view_count > $password->max_views) {
             $password->delete();
-            return redirect()->route('create')->with('error', 'Link has expired.');
+            return redirect()->route('create')->withErrors(['error' => 'The link has expired']);
         }
 
         // Check if the password has expired
         if ($password->expiration_time && now() > $password->expiration_time) {
             $password->delete();
-            return redirect()->route('create')->with('error', 'Link has expired. Password has been deleted.');
+            return redirect()->route('create')->withErrors(['error' => 'The link has expired']);
         }
 
-        $decryptedPassword = Crypt::decryptString($password->password, $key);
+        $decrypted_password = Crypt::decryptString($password->password, $key);
 
-        $password->decrypted_password = $decryptedPassword;
-
-        return view('show', compact('password'));
+        return view('show', compact('decrypted_password'));
     }
 }
