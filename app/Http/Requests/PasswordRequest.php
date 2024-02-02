@@ -51,10 +51,10 @@ class PasswordRequest extends FormRequest
         return [
             'password.required' => 'The password field is required.',
             'password.string' => 'The password must be a string.',
-            'password.min' => 'The password must be at least :min characters.',
+            'password.min' => 'The password must be at least 6 characters.',
             'max_views.required' => 'The times viewable field is required.',
             'max_views.integer' => 'The times viewable must be an integer.',
-            'max_views.min' => 'The times viewable must be at least :min.',
+            'max_views.min' => 'The times viewable must be at least 1.',
             'expiration_time.string' => 'The expiration time must be a string.',
             'expiration_time.after' => 'The expiration time must be a date after the current time.',
             'expiration_time.custom' => 'The expiration time does not match the format "d-m-Y, H:i".',
