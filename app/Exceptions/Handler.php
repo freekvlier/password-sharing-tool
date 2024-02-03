@@ -7,16 +7,24 @@ use Throwable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
     public function render($request, Throwable $exception)
     {
-        if (
-            ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) &&
-            Str::startsWith($request->path(), 'password')
-        ) {
+        if (($exception instanceof ModelNotFoundException || 
+            $exception instanceof NotFoundHttpException) &&
+            Str::startsWith($request->path(), 'password')) 
+        {
             return redirect()->route('create')->withErrors(['error' => 'The link has expired.']);
+        }
+
+        if ($exception instanceof HttpException) {
+            return response()->view('error', [
+                'statusCode' => $exception->getStatusCode(),
+                'exceptionMessage' => $exception->getMessage(),
+            ], $exception->getStatusCode());
         }
 
         return parent::render($request, $exception);

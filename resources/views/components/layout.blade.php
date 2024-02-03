@@ -11,8 +11,8 @@
         <div class="flex w-full flex-wrap items-center justify-center px-3">
             <div>
                 <a class="mx-2 my-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 lg:mb-0 lg:mt-0"
-                    href="#">
-                    <img src="{{ asset('freekvanlier-cropped.svg') }}" style="height: 40px" alt="TE Logo" loading="lazy" />
+                    href="{{ route('create') }}">
+                    <img src="{{ asset('freekvanlier-cropped.svg') }}" style="height: 40px" alt="Logo" loading="lazy" />
                 </a>
             </div>
         </div>
